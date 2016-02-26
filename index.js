@@ -1,6 +1,5 @@
 var postcss = require('postcss');
-var path = require("path");
-var rtlcss = require("rtlcss");
+var rtlcss = require('rtlcss');
 var propsToConvertRegex = require('./props.js');
 var propsToAlwaysConvert = require('./propsToAlwaysConvert.js');
 
@@ -16,18 +15,18 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
     var filterRegex = new RegExp(propsToConvertRegex, 'i');
     var propsToAlwaysConvertRegex = new RegExp(propsToAlwaysConvert, 'i');
 
-    return function (css, result) {
+    return function (css) {
 
         // Save animation names
         var keyFrameNamesToChange = [];
-        css.walkAtRules(/keyframes/i, function(atRule) {
+        css.walkAtRules(/keyframes/i, function (atRule) {
             if (keyFrameNamesToChange.indexOf(atRule.params) < 0) {
                 keyFrameNamesToChange.push(atRule.params);
             }
         });
 
         // Generate rtl animation declarations
-        css.walkAtRules(/keyframes/i, function(atRule) {
+        css.walkAtRules(/keyframes/i, function (atRule) {
             var newAtRule = atRule.clone();
             newAtRule.params += '-ltr'; // Will be converted to *-rtl
             newAtRule = rtlcss().process(newAtRule).root;
@@ -35,34 +34,36 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
         });
 
         /*
-         * Go through all "animation" or "animation-name" css declarations
+         * Go through all 'animation' or 'animation-name' css declarations
          * If you find an animation name that was converted to rtl above,
-         * tell rtlcss to append "-rtl" to the end of the animation name.
+         * tell rtlcss to append '-rtl' to the end of the animation name.
          */
         css.walkDecls(/animation$|animation-name/i, function (decl) {
-           keyFrameNamesToChange.forEach(function(element, index) {
-               var animationNamePosition = decl.value.indexOf(element);
-               if (animationNamePosition > -1) {
-                   animationNamePosition += element.length;
+            keyFrameNamesToChange.forEach(function (element) {
+                var animationNamePosition = decl.value.indexOf(element);
+                if (animationNamePosition > -1) {
+                    animationNamePosition += element.length;
 
-                   // Check if the name is complete
-                   if (!decl.value[animationNamePosition] ||
-                        decl.value[animationNamePosition].match(/\,|\ |\;|\!/)) {
-                            decl.value = [decl.value.slice(0, animationNamePosition),
-                                          "/*rtl:insert:-rtl*/",
-                                          decl.value.slice(animationNamePosition)]
-                                         .join('');
-                   }
-               }
-           });
+                    // Check if the name is complete
+                    if (!decl.value[animationNamePosition] ||
+                        decl.value[animationNamePosition]
+                            .match(/\,|\ |\;|\!/)) {
+                        decl.value =
+                            [decl.value.slice(0, animationNamePosition),
+                            '/*rtl:insert:-rtl*/',
+                            decl.value.slice(animationNamePosition)]
+                            .join('');
+                    }
+                }
+            });
         });
 
         css.walkRules(function (rule) {
 
-            // Do we have any selector that starts with "html"
+            // Do we have any selector that starts with 'html'
             if (rule.selectors.some(function (selector) {
-                    return selector.indexOf("html") === 0;
-                })) {
+                return selector.indexOf('html') === 0;
+            })) {
                 return;
             }
 
@@ -84,7 +85,8 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
             var declarationKeeperLTR = [];
             var declarationKeeperRTL = [];
 
-            for (var declIndex = rule.nodes.length - 1; declIndex >= 0; --declIndex) {
+            for (var declIndex = rule.nodes.length - 1;
+                 declIndex >= 0; --declIndex) {
                 if (rule.nodes[declIndex].type !== 'decl') {
                     continue;
                 }
@@ -110,28 +112,28 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
             if (declarationKeeperLTR.length > 0) {
 
                 var ltrSelectors = rule.selectors.map(function (el) {
-                    if (el.indexOf("html") !== 0) {
-                        return "html[dir='ltr'] " + el;
+                    if (el.indexOf('html') !== 0) {
+                        return 'html[dir="ltr"] ' + el;
                     }
 
                     return el;
                 });
 
                 var rtlSelectors = rule.selectors.map(function (el) {
-                    if (el.indexOf("html") !== 0) {
-                        return "html[dir='rtl'] " + el;
+                    if (el.indexOf('html') !== 0) {
+                        return 'html[dir="rtl"] ' + el;
                     }
 
                     return el;
                 });
 
                 // Create RTL rule
-                var newRTLRule = postcss.rule({selectors: rtlSelectors});
+                var newRTLRule = postcss.rule({ selectors: rtlSelectors });
                 newRTLRule.append(declarationKeeperRTL.reverse());
                 rule.parent.insertAfter(rule, newRTLRule);
 
                 // create LTR rule
-                var newLTRRule = postcss.rule({selectors: ltrSelectors});
+                var newLTRRule = postcss.rule({ selectors: ltrSelectors });
                 newLTRRule.append(declarationKeeperLTR.reverse());
                 rule.parent.insertAfter(rule, newLTRRule);
             }
@@ -144,7 +146,8 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
         // Clean up /*rtl:insert:-rtl*/ comments
         css.walkDecls(/animation$|animation-name/i, function (decl) {
-            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi, "");
+            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi,
+                                            '');
         });
     };
 });

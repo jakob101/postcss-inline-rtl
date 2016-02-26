@@ -11,10 +11,8 @@ function run(t, input, output, opts = { }) {
         });
 }
 
-/* Write tests here
+/* Write tests here */
 
-test('does something', t => {
-    return run(t, 'a{ }', 'a{ }', { });
+test('Checks initial configuration', t => {
+    return run(t, 'a{ color: red }', 'a{ color: red }', { });
 });
-
-*/

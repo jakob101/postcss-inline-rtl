@@ -30,23 +30,23 @@
  *
  */
 module.exports = [
- 'background',
- 'background-position',
- 'background-position-x',
- 'border',
- 'border-color',
- 'border-radius',
- 'border-style',
- 'border-width',
- 'border-top',
- 'border-right',
- 'border-bottom',
- 'border-left',
- 'box-shadow',
- 'margin',
- 'padding',
- 'text-shadow',
- 'text-align',
- 'transform',
- 'transform-origin'
-].join("|");
+    'background',
+    'background-position',
+    'background-position-x',
+    'border',
+    'border-color',
+    'border-radius',
+    'border-style',
+    'border-width',
+    'border-top',
+    'border-right',
+    'border-bottom',
+    'border-left',
+    'box-shadow',
+    'margin',
+    'padding',
+    'text-shadow',
+    'text-align',
+    'transform',
+    'transform-origin'
+].join('|');
