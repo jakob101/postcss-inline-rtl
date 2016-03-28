@@ -79,13 +79,14 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                 return;
             }
 
-            var rtl = rtlcss().process(rule).root;
+            var rtl = postcss([rtlcss]).process(rule).root;
 
             // Go through declarations
             var declarationKeeperLTR = [];
             var declarationKeeperRTL = [];
+            var declarationKeeperInvariant = [];
 
-            for (var declIndex = rule.nodes.length - 1;
+            for (var declIndex = rule.nodes.length - 1; 
                  declIndex >= 0; --declIndex) {
                 if (rule.nodes[declIndex].type !== 'decl') {
                     continue;
@@ -99,16 +100,21 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                 }
 
                 if (rtlDecl.prop !== decl.prop ||
-                    rtlDecl.value !== decl.value ||
-                    propsToAlwaysConvertRegex.test(decl.prop)) {
+                    rtlDecl.value !== decl.value) {
 
                     declarationKeeperLTR.push(decl);
                     declarationKeeperRTL.push(rtlDecl);
                     decl.remove();
                     rtlDecl.remove();
                 }
+                else if (propsToAlwaysConvertRegex.test(decl.prop)) {
+                    declarationKeeperInvariant.push(decl);
+                    decl.remove();
+                    rtlDecl.remove();
+                }
             }
 
+            // Check for transformed properties
             if (declarationKeeperLTR.length > 0) {
 
                 var ltrSelectors = rule.selectors.map(function (el) {
@@ -138,6 +144,21 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                 rule.parent.insertAfter(rule, newLTRRule);
             }
 
+            // Check for invariant properties
+            if (declarationKeeperInvariant.length > 0) {
+                var invariantSelectors = rule.selectors.map(function (el) {
+                    if (el.indexOf('html') !== 0) {
+                        return 'html[dir] ' + el;
+                    }
+
+                    return el;
+                });
+
+                var newInvariantRule = postcss.rule({ selectors: invariantSelectors });
+                newInvariantRule.append(declarationKeeperInvariant.reverse());
+                rule.parent.insertAfter(rule, newInvariantRule);
+            }
+
             // If we're left with an empty rule
             if (rule.nodes.length === 0) {
                 rule.parent.removeChild(rule);
@@ -146,7 +167,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
         // Clean up /*rtl:insert:-rtl*/ comments
         css.walkDecls(/animation$|animation-name/i, function (decl) {
-            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi,
+            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi, 
                                             '');
         });
     };

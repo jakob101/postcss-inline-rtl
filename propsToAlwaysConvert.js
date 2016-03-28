@@ -9,7 +9,7 @@
  *      margin: 0;
  *    }
  *
- * Will be converted to:
+ * Would be converted to:
  *
  *    html[dir='ltr'] .a {
  *      margin: 0 5px 0 0;
@@ -23,10 +23,11 @@
  *       margin: 0;
  *    }
  *
- * As the "html[dir='*'] .a" will have more specificity,
+ * As the "html[dir] .a" will have more specificity,
  * "margin: 0" will be ignored. That's why we must
  * convert the following properties *always*, regardless
  * of the value.
+ *
  *
  */
 module.exports = [

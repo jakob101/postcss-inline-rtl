@@ -60,13 +60,14 @@ html[dir='rtl'] .class {
 }
 
 /*  converts to: */
+html[dir] .class {
+  border: none;
+}
 html[dir='ltr'] .class {
   border-left: 10px;
-  border: none;
 }
 html[dir='rtl'] .class {
   border-right: 10px;
-  border: none;
 }
 ```
 
@@ -78,17 +79,12 @@ html[dir='rtl'] .class {
 }
 
 /*  Converts to: */
-html[dir='ltr'] .class {
+.class {
+    composes: otherClass;
+}
+html[dir] .class {
   border: none;
 }
-html[dir='rtl'] .class {
-  border: none;
-}
-.class{ 
-  composes: otherClass;
-}
-
-/*  TODO animation duplication explanation */
 ```
 
 ## Usage
