@@ -19,7 +19,7 @@
   "homepage": "https://github.com/jakob101/postcss-inline-rtl",
   "dependencies": {
     "postcss": "^5.0.16",
-    "rtlcss": "^1.7.1"
+    "rtlcss": "^2.0.3"
   },
   "devDependencies": {
     "ava": "^0.12.0",
