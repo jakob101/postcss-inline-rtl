@@ -86,7 +86,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
             var declarationKeeperRTL = [];
             var declarationKeeperInvariant = [];
 
-            for (var declIndex = rule.nodes.length - 1; 
+            for (var declIndex = rule.nodes.length - 1;
                  declIndex >= 0; --declIndex) {
                 if (rule.nodes[declIndex].type !== 'decl') {
                     continue;
@@ -106,8 +106,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                     declarationKeeperRTL.push(rtlDecl);
                     decl.remove();
                     rtlDecl.remove();
-                }
-                else if (propsToAlwaysConvertRegex.test(decl.prop)) {
+                } else if (propsToAlwaysConvertRegex.test(decl.prop)) {
                     declarationKeeperInvariant.push(decl);
                     decl.remove();
                     rtlDecl.remove();
@@ -154,7 +153,8 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                     return el;
                 });
 
-                var newInvariantRule = postcss.rule({ selectors: invariantSelectors });
+                var newInvariantRule = 
+                    postcss.rule({ selectors: invariantSelectors });
                 newInvariantRule.append(declarationKeeperInvariant.reverse());
                 rule.parent.insertAfter(rule, newInvariantRule);
             }
@@ -167,7 +167,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
         // Clean up /*rtl:insert:-rtl*/ comments
         css.walkDecls(/animation$|animation-name/i, function (decl) {
-            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi, 
+            decl.value = decl.value.replace(/\/\*rtl\:insert\:\-rtl\*\//gi,
                                             '');
         });
     };
