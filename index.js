@@ -153,7 +153,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                     return el;
                 });
 
-                var newInvariantRule = 
+                var newInvariantRule =
                     postcss.rule({ selectors: invariantSelectors });
                 newInvariantRule.append(declarationKeeperInvariant.reverse());
                 rule.parent.insertAfter(rule, newInvariantRule);
