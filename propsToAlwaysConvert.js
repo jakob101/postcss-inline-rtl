@@ -44,6 +44,7 @@ module.exports = [
     'border-bottom',
     'border-left',
     'box-shadow',
+    'float',
     'margin',
     'padding',
     'text-shadow',
