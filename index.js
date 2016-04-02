@@ -161,7 +161,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
             // If we're left with an empty rule (with no declarations)
             if (rule.some(function (node) {
-                return node.type === 'decl'
+                return node.type === 'decl';
             }) === false) {
                 rule.parent.removeChild(rule);
             }
