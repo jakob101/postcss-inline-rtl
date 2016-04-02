@@ -159,8 +159,10 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                 rule.parent.insertAfter(rule, newInvariantRule);
             }
 
-            // If we're left with an empty rule
-            if (rule.nodes.length === 0) {
+            // If we're left with an empty rule (with no declarations)
+            if (rule.some(function (node) {
+                return node.type === 'decl'
+            }) === false) {
                 rule.parent.removeChild(rule);
             }
         });
