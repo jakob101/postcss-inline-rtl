@@ -49,5 +49,6 @@ module.exports = [
     'text-shadow',
     'text-align',
     'transform',
-    'transform-origin'
+    'transform-origin',
+    'transition'
 ].join('|');
