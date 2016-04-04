@@ -12,7 +12,6 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
         ignoreRegex = null;
     }
 
-    var filterRegex = new RegExp(propsToConvertRegex, 'i');
     var propsToAlwaysConvertRegex = new RegExp(propsToAlwaysConvert, 'i');
 
     return function (css) {
@@ -94,13 +93,10 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
                 var decl = rule.nodes[declIndex];
                 var rtlDecl = rtl.nodes[0].nodes[declIndex];
-
-                if (!filterRegex.test(decl.prop)) {
-                    continue;
-                }
+                var rtlValue = rtlDecl.raws.value && rtlDecl.raws.value.raw ? rtlDecl.raws.value.raw : rtlDecl.value;
 
                 if (rtlDecl.prop !== decl.prop ||
-                    rtlDecl.value !== decl.value) {
+                    rtlValue !== decl.value) {
 
                     declarationKeeperLTR.push(decl);
                     declarationKeeperRTL.push(rtlDecl);
