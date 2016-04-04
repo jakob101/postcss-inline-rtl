@@ -92,7 +92,8 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
                 var decl = rule.nodes[declIndex];
                 var rtlDecl = rtl.nodes[0].nodes[declIndex];
-                var rtlValue = rtlDecl.raws.value && rtlDecl.raws.value.raw ? rtlDecl.raws.value.raw : rtlDecl.value;
+                var rtlValue = rtlDecl.raws.value && rtlDecl.raws.value.raw ?
+                    rtlDecl.raws.value.raw : rtlDecl.value;
 
                 if (rtlDecl.prop !== decl.prop ||
                     rtlValue !== decl.value) {
