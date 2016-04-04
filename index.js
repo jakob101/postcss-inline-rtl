@@ -1,6 +1,5 @@
 var postcss = require('postcss');
 var rtlcss = require('rtlcss');
-var propsToConvertRegex = require('./props.js');
 var propsToAlwaysConvert = require('./propsToAlwaysConvert.js');
 
 module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
