@@ -60,7 +60,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
 
             // Do we have any selector that starts with 'html'
             if (rule.selectors.some(function (selector) {
-                return selector.indexOf('html') === 0;
+                return selector.indexOf('html') === 0 || /^\[dir=['"]?(ltr|rtl)['"]?\]/i.test(selector); 
             })) {
                 return;
             }
