@@ -59,8 +59,10 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
         css.walkRules(function (rule) {
 
             // Do we have any selector that starts with 'html'
+            // or a selector that already specifies ltr/rtl values
             if (rule.selectors.some(function (selector) {
-                return selector.indexOf('html') === 0 || /^\[dir=['"]?(ltr|rtl)['"]?\]/i.test(selector); 
+                return selector.indexOf('html') === 0
+                        || /^\[dir=['"]?(ltr|rtl)['"]?\]/i.test(selector);
             })) {
                 return;
             }
