@@ -1,6 +1,6 @@
 {
   "name": "postcss-inline-rtl",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "PostCSS plugin to inline the minimal amount of RTL CSS you need",
   "keywords": [
     "postcss",
