@@ -1,3 +1,4 @@
+/* eslint max-len:0 */
 import postcss from 'postcss';
 import test    from 'ava';
 
@@ -15,4 +16,8 @@ function run(t, input, output, opts = { }) {
 
 test('Checks initial configuration', t => {
     return run(t, 'a{ color: red }', 'a{ color: red }', { });
+});
+
+test('Supports rtlcss control directives', t => {
+    return run(t, 'a{ /*rtl:ignore*/left: 0 }', 'a{ /*rtl:ignore*/left: 0 }', { });
 });

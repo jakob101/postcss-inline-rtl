@@ -91,6 +91,9 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                 if (rule.nodes[declIndex].type !== 'decl') {
                     continue;
                 }
+                if (rtl.nodes[0].nodes[declIndex] === undefined) {
+                    continue;
+                }
 
                 var decl = rule.nodes[declIndex];
                 var rtlDecl = rtl.nodes[0].nodes[declIndex];
