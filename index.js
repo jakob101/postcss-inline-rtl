@@ -48,8 +48,8 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
                             .match(/\,|\ |\;|\!/)) {
                         decl.value =
                             [decl.value.slice(0, animationNamePosition),
-                            '/*rtl:insert:-rtl*/',
-                            decl.value.slice(animationNamePosition)]
+                                '/*rtl:insert:-rtl*/',
+                                decl.value.slice(animationNamePosition)]
                             .join('');
                     }
                 }
