@@ -26,7 +26,7 @@ module.exports = postcss.plugin('postcss-inline-rtl', function (opts) {
         // Generate rtl animation declarations
         css.walkAtRules(/keyframes/i, function (atRule) {
             var newAtRule = atRule.clone();
-            newAtRule.params += '-ltr'; // Will be converted to *-rtl
+            newAtRule.params += '-rtl';
             newAtRule = postcss([rtlcss]).process(newAtRule).root;
             atRule.parent.insertBefore(atRule, newAtRule);
         });

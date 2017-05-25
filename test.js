@@ -228,7 +228,7 @@ test('Checks example where selectors have [dir="*"] defined', t => {
         });
 });
 
-test ('Check @media tag parsing', t => {
+test('Check @media tag parsing', t => {
     const input = `
 @media screen and (max-width:632px) {
     .a {
