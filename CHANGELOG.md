@@ -1,3 +1,7 @@
+# 0.9.8
+
+Bumped the versions of dependencies, added a bunch of tests and fixed a bug with rtl animations.
+
 # 0.9.2
 
 Changed the initial test to check if the specific selector already contains dir values (and ignore that selector).
